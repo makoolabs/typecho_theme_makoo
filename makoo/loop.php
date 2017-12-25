@@ -149,7 +149,7 @@
                         echo '<img src="'.$this->options->themeUrl.'/timthumb.php?src='.$r['2']['0'].'&h=140&w=205&zc=1" alt="'.$this->title.'">';
                     }else{
                         //echo '<img src="'.$this->options->themeUrl.'/img/sj/1.jpg'.'" alt="xxx" width="205" height="104"/>';
-                        echo '<img src="'.$this->options->themeUrl.'/timthumb.php?src='.$this->options->themeUrl.'/img/sj/1.jpg'.'&h=140&w=205&zc=1" alt="'.$this->title.'">';                        
+                        echo '<img src="'.$this->options->themeUrl.'/timthumb.php?src='.$this->options->themeUrl.'/img/sj/54.jpg'.'&h=140&w=205&zc=1" alt="'.$this->title.'">';                        
                     };
                     $this->excerpt($dis_num,'...');
                 ?>
