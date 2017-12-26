@@ -68,22 +68,6 @@
     ?>
     <?php endif;?>
 </div>
-<?php
-    /*$ifpic = $this->options->auto_zhaiyao;
-    if($ifpic == 'display'){
-        echo '<style type="text/css">
-                .c-con img{
-                    height:auto !important;
-                    width:100% !important;
-                    margin:0px !important;
-                }
-                .c-con iframe{
-                    width:100% !important;
-                    margin:0px !important;
-                }
-              </style>';
-    }*/
-?>
 <?php while($this->next()):?>
 <article class="post_box">
     <div class="c-top" id="post-<?php $this->cid();?>">

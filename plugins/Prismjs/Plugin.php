@@ -50,8 +50,15 @@ class Prismjs_Plugin implements Typecho_Plugin_Interface{
    }
 
    public static function footer($widget){
+       echo "<script>var pres = document.getElementsByTagName('pre');
+            for (var i = 0;i<pres.length;i++){
+                if(pres[i].getElementsByTagName('code').length > 0)
+                    pres[i].className = 'line-numbers';
+            }
+       </script>";
        $jsUrl = Helper::options()->pluginUrl . '/Prismjs/prism.js';
        echo '<script src="'.$jsUrl.'"></script>';
+
    }
 
    public static function parse($text,$widget){
