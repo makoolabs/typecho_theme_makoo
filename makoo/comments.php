@@ -1,8 +1,17 @@
 <?php if (!defined('__TYPECHO_ROOT_DIR__')) exit;?>
-<div id="comments">
-    <?php $this->comments()->to($comments);?>
-    <?php if($comments->have()):?>
-    <h3 id="comments-title">《<em><?php $this->title();?></em>》<?php $this->commentsNum(_t('暂无评论'), _t('仅有一条评论'), _t('已有 %d 条评论')); ?></h3>
+<?php
+/*if ( post_password_required() )
+    return;*/
+?>
+<?php $this->comments()->to($comments);?>
+<?php if($comments->have()):?>
+<div class="comment-head clearfix">
+    <div class="pull-left">
+        《<em><?php $this->title();?></em>》<?php $this->commentsNum(_t('暂无评论'), _t('仅有一条评论'), _t('已有 %d 条评论')); ?>
+    </div>
+    <div class="pull-right"><a href="#respond"><i class="fa fa-pencil"></i> 添加新评论</a></div>
+</div>
+<ul>
     <ol class="commentlist">
         <?php function threadedComments($comments,$options){
                     $commentClass = '';
@@ -44,8 +53,9 @@
         <?php $comments->listComments(array('before'=>'' , 'after'=>'')); ?>
         <?php $comments->pageNav('&laquo; 前一页', '后一页 &raquo;'); ?>
     </ol>
-    <?php endif;?>
-    <?php if($this->allow("comment")):?>
+</ul>
+<?php endif; ?>
+<?php if($this->allow("comment")):?>
     <div id="<?php $this->respondId();?>" class="comment-respond">
         <h3 id="reply-title" class="comment-reply-title">留下一个回复
             <small>
@@ -84,7 +94,21 @@
     <?php else:?>
     <h4><?php _e("评论已关闭");?></h4>
     <?php endif;?>
-</div>
+<?php
+    /*$fields =  array(
+        'author' => '<div class="comment-form-author form-group has-feedback"><div class="input-group"><div class="input-group-addon"><i class="fa fa-user"></i></div><input class="form-control" placeholder="昵称" id="author" name="author" type="text" value="" ' . esc_attr( $commenter['comment_author'] ) . '" size="30"' . $aria_req . ' /><span class="form-control-feedback required">*</span></div></div>',
+        'email'  => '<div class="comment-form-email form-group has-feedback"><div class="input-group"><div class="input-group-addon"><i class="fa fa-envelope-o"></i></div><input class="form-control" placeholder="邮箱" id="email" name="email" type="text" value="" ' . esc_attr(  $commenter['comment_author_email'] ) . '" size="30"' . $aria_req . ' /><span class="form-control-feedback required">*</span></div></div>',
+        'url'  => '<div class="comment-form-url form-group has-feedback"><div class="input-group"><div class="input-group-addon"><i class="fa fa-link"></i></div><input class="form-control" placeholder="网站" id="url" name="url" type="text" value="" ' . esc_attr(  $commenter['comment_author_url'] ) . '" size="30"' . $aria_req . ' /></div></div>',
+    );
+    $args = array(
+        'title_reply_before' => '<h4 id="reply-title" class="comment-reply-title">',
+        'title_reply_after'  => '</h4>',
+        'fields' =>  $fields,
+        'class_submit' => 'btn btn-primary',
+        'comment_field' =>  '<div class="comment form-group has-feedback"><textarea class="form-control" id="comment" placeholder=" " name="comment" rows="5" aria-required="true" required  onkeydown="if(event.ctrlKey){if(event.keyCode==13){document.getElementById(\'submit\').click();return false}};"></textarea></div>',
+    );
+    comment_form($args);*/
+?>
 <script>
     (function(){
         window.TypechoComment = {

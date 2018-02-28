@@ -1,26 +1,132 @@
 <?php 
-define('VERSION','1.0.0');
+define('VERSION','0.9.0');
 function themeConfig($form){
     $CDNURL = new Typecho_Widget_Helper_Form_Element_Text('CDNURL', NULL, NULL, _t('模板资源文件地址替换'), _t("
     新建一个'MakooCDN' 文件夹,把Makoo模板文件夹下的所有子文件夹放进去，然后再把js和css文件放进去, 最后把'MakooCDN' 上传到到你的 CDN 储存空间根目录下<br />
     填入你的 CDN 地址, 如 <b>http://makoolabs.qiniu.com</b>"));
     $form->addInput($CDNURL);
-
     $logo_img = new Typecho_Widget_Helper_Form_Element_Text('logo_img', NULL, 'images/logo.png', _t('网站logo'), _t('在这里填入一个图片相对地址, 以在网站标题前加上一个LOGO'));
     $form->addInput($logo_img);
     //建站时间
-    $starttime = new Typecho_Widget_Helper_Form_Element_Text('starttime', NULL, '2012/02/14', _t('博客成立时间'), _t('在这里填入博客的成立时间,格式要求，完整如填入“2012/02/14 00:00:00”或者只填写年月日“2012/02/14”。不填则不显示建站时间'));
+    $starttime = new Typecho_Widget_Helper_Form_Element_Text('starttime', NULL, '2018/01/01', _t('博客成立时间'), _t('在这里填入博客的成立时间,格式要求，完整如填入“2018/01/01 00:00:00”或者只填写年月日“2018/01/01”。不填则不显示建站时间'));
     $form->addInput($starttime);
-
-    $page_width = new Typecho_Widget_Helper_Form_Element_Text('page_width', NULL, NULL, _t('页面宽度限制'), _t('设置页面宽度后，PC页面会按照您设定宽度展现页面。强烈建议禁用自动摘要后配合此功能调整页面。（请填入整数，并且宽度设置小于960会出错！）'));
-    $page_width->input->setAttribute('class', 'mini');
-    $form->addInput($page_width->addRule('isInteger', '请填入数字'));
-
     $css = new Typecho_Widget_Helper_Form_Element_Textarea('css', NULL,NULL, _t('自定义css'), _t('这里可以添加自定义css，自定义css可以改变网站样式'));
     $form->addInput($css);
     //统计代码
     $tongji = new Typecho_Widget_Helper_Form_Element_Textarea('tongji', NULL,NULL, _t('统计代码'), _t('填入百度或者谷歌统计代码，只能填写那种不显示文字的统计代码<head>部分'));
     $form->addInput($tongji);
+    $rss = new Typecho_Widget_Helper_Form_Element_Radio('rss', 
+    array(
+        'display' => _t('显示'),  
+        'close' => _t('关闭')
+        ), 
+    'display', 
+    _t('是否显示RSS订阅源'), _t(''));
+    $form->addInput($rss);
+    $weibo = new Typecho_Widget_Helper_Form_Element_Radio('weibo', 
+    array(
+        'display' => _t('显示'),  
+        'close' => _t('关闭')
+        ), 
+    'display', 
+    _t('是否显示Weibo'), _t(''));
+    $form->addInput($weibo);
+    $weibo_url = new Typecho_Widget_Helper_Form_Element_Text('weibo_url', NULL, 'https://weibo.com/coffis', _t('Weibo地址'), _t(''));
+    $form->addInput($weibo_url);
+    $twitter = new Typecho_Widget_Helper_Form_Element_Radio('twitter', 
+    array(
+        'display' => _t('显示'),  
+        'close' => _t('关闭')
+        ), 
+    'display', 
+    _t('是否显示Twitter'), _t(''));
+    $form->addInput($twitter);
+    $twitter_url = new Typecho_Widget_Helper_Form_Element_Text('twitter_url', NULL, 'https://twitter.com/coffis', _t('Twitter地址'), _t('Twitter地址'));
+    $form->addInput($twitter_url);
+    $facebook = new Typecho_Widget_Helper_Form_Element_Radio('facebook', 
+    array(
+        'display' => _t('显示'),  
+        'close' => _t('关闭')
+        ), 
+    'close', 
+    _t('是否显示Facebook'), _t(''));
+    $form->addInput($facebook);
+    $facebook_url = new Typecho_Widget_Helper_Form_Element_Text('facebook_url', NULL, 'https://www.facebook.com/coffis', _t('Facebook地址'), _t('Facebook地址'));
+    $form->addInput($facebook_url);
+    $github = new Typecho_Widget_Helper_Form_Element_Radio('github', 
+    array(
+        'display' => _t('显示'),  
+        'close' => _t('关闭')
+        ), 
+    'display', 
+    _t('是否显示GitHub'), _t(''));
+    $form->addInput($github);
+    $github_url = new Typecho_Widget_Helper_Form_Element_Text('github_url', NULL, 'https://github.com/makoolabs', _t('GitHub地址'), _t('GitHub地址'));
+    $form->addInput($github_url);
+    $weixin = new Typecho_Widget_Helper_Form_Element_Radio('weixin', 
+    array(
+        'display' => _t('显示'),  
+        'close' => _t('关闭')
+        ), 
+    'display', 
+    _t('是否显示微信公众号'), _t(''));
+    $form->addInput($weixin);
+    $weixin_img = new Typecho_Widget_Helper_Form_Element_Text('weixin_img', NULL, 'images/qrcode.jpg', _t('公众号二维码图片'), _t('公众号二维码图片'));
+    $form->addInput($weixin_img);
+    $dis_num = new Typecho_Widget_Helper_Form_Element_Text('dis_num',NULL, '150','自动摘要字符数', '请根据需要输入整数以控制首页摘要的字符数量，如不填则使用默认策略');
+    $dis_num->input->setAttribute('class', 'mini');
+    $form->addInput($dis_num->addRule('isInteger', '请填入数字')->addRule('minLength', '至少包含3个数字', 3)->addRule('maxLength', '最多包含4个数字', 4)->addRule('required', '请填入数字。'));
+    $image_width = new Typecho_Widget_Helper_Form_Element_Text('image_width',NULL, '150','自动摘要字符数', '请根据需要输入整数以控制首页摘要的字符数量，如不填则使用默认策略');
+    $image_width->input->setAttribute('class', 'mini');
+    $form->addInput($image_width->addRule('isInteger', '请填入数字')->addRule('minLength', '至少包含3个数字', 3)->addRule('maxLength', '最多包含4个数字', 4)->addRule('required', '请填入数字。'));
+    $image_height = new Typecho_Widget_Helper_Form_Element_Text('image_height',NULL, '150','自动摘要字符数', '请根据需要输入整数以控制首页摘要的字符数量，如不填则使用默认策略');
+    $image_height->input->setAttribute('class', 'mini');
+    $form->addInput($image_height->addRule('isInteger', '请填入数字')->addRule('minLength', '至少包含3个数字', 3)->addRule('maxLength', '最多包含4个数字', 4)->addRule('required', '请填入数字。'));
+    $focus = new Typecho_Widget_Helper_Form_Element_Radio('focus', 
+    array(
+        'display' => _t('显示'),  
+        'close' => _t('关闭')
+        ), 
+    'close', 
+    _t('显示幻灯片'), _t(''));
+    $form->addInput($focus);
+    $view_time = new Typecho_Widget_Helper_Form_Element_Radio('view_time', 
+    array(
+        'display' => _t('显示'),  
+        'close' => _t('关闭')
+        ), 
+    'display', 
+    _t('顶部按钮扩展区域'), _t(''));
+    $form->addInput($view_time);
+    $view_num = new Typecho_Widget_Helper_Form_Element_Text('view_num',NULL, '150','自动摘要字符数', '请根据需要输入整数以控制首页摘要的字符数量，如不填则使用默认策略');
+    $view_num->input->setAttribute('class', 'mini');
+    $form->addInput($view_num->addRule('isInteger', '请填入数字')->addRule('minLength', '至少包含3个数字', 3)->addRule('maxLength', '最多包含4个数字', 4)->addRule('required', '请填入数字。'));
+    $dis_href = new Typecho_Widget_Helper_Form_Element_Radio('dis_href', 
+    array(
+        'display' => _t('显示'),  
+        'close' => _t('关闭')
+        ), 
+    'display', 
+    _t('顶部按钮扩展区域'), _t(''));
+    $form->addInput($dis_href);
+    $readmore = new Typecho_Widget_Helper_Form_Element_Text('readmore', NULL, NULL, _t('QQ订阅key'), _t('可以让用户通过自己的邮箱订阅站点的更新内容，需要至腾讯list邮箱中注册key<a href="http://list.qq.com/" target="_blank">去看看</a>'));
+    $form->addInput($readmore);
+
+
+
+    
+
+    
+
+    
+    
+
+    $page_width = new Typecho_Widget_Helper_Form_Element_Text('page_width', NULL, NULL, _t('页面宽度限制'), _t('设置页面宽度后，PC页面会按照您设定宽度展现页面。强烈建议禁用自动摘要后配合此功能调整页面。（请填入整数，并且宽度设置小于960会出错！）'));
+    $page_width->input->setAttribute('class', 'mini');
+    $form->addInput($page_width->addRule('isInteger', '请填入数字'));
+
+   
+    
 
     $top_right_btn_text = new Typecho_Widget_Helper_Form_Element_Text('top_right_btn_text', NULL, '欢迎投稿', _t('订阅左侧按钮文字'), _t(''));
     $form->addInput($top_right_btn_text);
@@ -38,26 +144,9 @@ function themeConfig($form){
     $top_ac = new Typecho_Widget_Helper_Form_Element_Textarea('top_ac', NULL, NULL, _t('站点公告'), _t('每条一行(回车)，显示在导航条右上方，支持HTML代码。（建议不要再这里插入一些影响布局的代码）'));
     $form->addInput($top_ac);
 
-    $dis_num = new Typecho_Widget_Helper_Form_Element_Text('dis_num',NULL, '150','自动摘要字符数', '请根据需要输入整数以控制首页摘要的字符数量，如不填则使用默认策略');
-    $dis_num->input->setAttribute('class', 'mini');
-    $form->addInput($dis_num->addRule('isInteger', '请填入数字')->addRule('minLength', '至少包含3个数字', 3)->addRule('maxLength', '最多包含4个数字', 4)->addRule('required', '请填入数字。'));
-
-    $image_width = new Typecho_Widget_Helper_Form_Element_Text('image_width',NULL, '150','自动摘要字符数', '请根据需要输入整数以控制首页摘要的字符数量，如不填则使用默认策略');
-    $image_width->input->setAttribute('class', 'mini');
-    $form->addInput($image_width->addRule('isInteger', '请填入数字')->addRule('minLength', '至少包含3个数字', 3)->addRule('maxLength', '最多包含4个数字', 4)->addRule('required', '请填入数字。'));
     
-    $image_height = new Typecho_Widget_Helper_Form_Element_Text('image_height',NULL, '150','自动摘要字符数', '请根据需要输入整数以控制首页摘要的字符数量，如不填则使用默认策略');
-    $image_height->input->setAttribute('class', 'mini');
-    $form->addInput($image_height->addRule('isInteger', '请填入数字')->addRule('minLength', '至少包含3个数字', 3)->addRule('maxLength', '最多包含4个数字', 4)->addRule('required', '请填入数字。'));
     
-    $timThumb = new Typecho_Widget_Helper_Form_Element_Radio('timThumb', 
-    array(
-        'display' => _t('显示'),  
-        'close' => _t('关闭')
-        ), 
-    'display', 
-    _t('顶部按钮扩展区域'), _t(''));
-    $form->addInput($timThumb);
+   
 
     $sticky_1 = new Typecho_Widget_Helper_Form_Element_Text('sticky_1',NULL, NULL,'置顶主题ID', '填写对应主题的 id 即可使某些分类的文章在置顶首页显示（例如 1）。');
     $sticky_1->input->setAttribute('class', 'mini');
@@ -79,27 +168,11 @@ function themeConfig($form){
     $sticky_5->input->setAttribute('class', 'mini');
     $form->addInput($sticky_5->addRule('isInteger', '请填入数字'));
 
-    $view_time = new Typecho_Widget_Helper_Form_Element_Radio('view_time', 
-    array(
-        'display' => _t('显示'),  
-        'close' => _t('关闭')
-        ), 
-    'display', 
-    _t('顶部按钮扩展区域'), _t(''));
-    $form->addInput($view_time);
+    
 
-    $view_num = new Typecho_Widget_Helper_Form_Element_Text('view_num',NULL, '150','自动摘要字符数', '请根据需要输入整数以控制首页摘要的字符数量，如不填则使用默认策略');
-    $view_num->input->setAttribute('class', 'mini');
-    $form->addInput($view_num->addRule('isInteger', '请填入数字')->addRule('minLength', '至少包含3个数字', 3)->addRule('maxLength', '最多包含4个数字', 4)->addRule('required', '请填入数字。'));  
+      
 
-    $focus = new Typecho_Widget_Helper_Form_Element_Radio('focus', 
-    array(
-        'display' => _t('显示'),  
-        'close' => _t('关闭')
-        ), 
-    'close', 
-    _t('显示幻灯片'), _t(''));
-    $form->addInput($focus);
+    
 
     $auto_zhaiyao = new Typecho_Widget_Helper_Form_Element_Radio('auto_zhaiyao', 
     array(
@@ -143,16 +216,8 @@ function themeConfig($form){
    
       
     
-    $dis_href = new Typecho_Widget_Helper_Form_Element_Radio('dis_href', 
-    array(
-        'display' => _t('显示'),  
-        'close' => _t('关闭')
-        ), 
-    'display', 
-    _t('顶部按钮扩展区域'), _t(''));
-    $form->addInput($dis_href);
-    $readmore = new Typecho_Widget_Helper_Form_Element_Text('readmore', NULL, NULL, _t('QQ订阅key'), _t('可以让用户通过自己的邮箱订阅站点的更新内容，需要至腾讯list邮箱中注册key<a href="http://list.qq.com/" target="_blank">去看看</a>'));
-    $form->addInput($readmore);
+    
+    
     $post_ad_1 = new Typecho_Widget_Helper_Form_Element_Textarea('post_ad_1', NULL, NULL, _t('文章页面右侧广告位'), _t('建议是矩形广告'));
     $form->addInput($post_ad_1);
 
@@ -420,4 +485,29 @@ function timer_start() {
       echo $r;
     return $r;
   }
+  //分页
+function pagination($query_string){
+    global $posts_per_page, $paged;
+    $my_query = new WP_Query($query_string ."&posts_per_page=-1");
+    $total_posts = $my_query->post_count;
+    if(empty($paged))$paged = 1;
+    $prev = $paged - 1;
+    $next = $paged + 1;
+    $range = 5;  //分页数设置
+    $showitems = ($range * 2)+1;
+    $pages = ceil($total_posts/$posts_per_page);
+    if(1 != $pages){
+        echo "<ul class='pagination'>";
+        echo ($paged > 2 && $paged+$range+1 > $pages && $showitems < $pages)? "<li><a href='".get_pagenum_link(1)."'><i class='fa fa-angle-double-left' aria-hidden='true'></i></a></li>":"";
+        echo ($paged > 1 && $showitems < $pages)? "<li><a href='".get_pagenum_link($prev)."'><i class='fa fa-angle-left' aria-hidden='true'></i></a></li>":"";
+        for ($i=1; $i <= $pages; $i++){
+            if (1 != $pages &&( !($i >= $paged+$range+1 || $i <= $paged-$range-1) || $pages <= $showitems )){
+                echo ($paged == $i)? "<li class='active'><a href='".get_pagenum_link($i)."'>".$i."<span class='sr-only'>(current)</span></a></li>":"<li><a href='".get_pagenum_link($i)."'>".$i."</a></li>";
+            }
+        }
+    echo ($paged < $pages && $showitems < $pages) ? "<li><a href='".get_pagenum_link($next)."'><i class='fa fa-angle-right' aria-hidden='true'></i></a></li>" :"";
+    echo ($paged < $pages-1 &&  $paged+$range-1 < $pages && $showitems < $pages) ? "<li><a href='".get_pagenum_link($pages)."'><i class='fa fa-angle-double-right' aria-hidden='true'></i></a></li>":"";
+    echo "</ul>";
+    }
+}
 ?>

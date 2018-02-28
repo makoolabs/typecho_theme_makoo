@@ -10,7 +10,7 @@
          * If you want to overload this in a child theme then include a file
          * called loop-tag.php and that will be used instead.
          */
-        $this->need('loop.php');
+        //$this->need('loop.php');
         ?>
     </div>
 </div>

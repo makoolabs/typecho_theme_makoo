@@ -3,7 +3,7 @@
 <div id="container">
     <div id="content" role="main">
         <h1 class="page-title author"><?php $this->archiveTitle(array('author' => _t('%s 的 站内主页'),),'','');?></h1>
-        <?php $this->need('loop.php');?>
+        <?php //$this->need('loop.php');?>
     </div>
 </div>
 <div id="primary" class="side" role="complementary">
@@ -22,19 +22,5 @@
         <p><b>邮箱:</b><?php $this->author->mail();?></p>
     <?php }?>
 </div>
-<!-- Duoshuo Comment BEGIN -->
-<div class="ds-thread" data-thread-key="author<?php echo $this->user->uid; ?>" data-title="<?php $this->author(); ?> 在<?php $this->options->title(); ?>中的主页" ></div>
-<script type="text/javascript">
-var duoshuoQuery = {short_name:"<?php $this->options->duoshuo_id() ?>"};
-	(function() {
-		var ds = document.createElement('script');
-		ds.type = 'text/javascript';ds.async = true;
-		ds.src = 'http://static.duoshuo.com/embed.js';
-		ds.charset = 'UTF-8';
-		(document.getElementsByTagName('head')[0] 
-		|| document.getElementsByTagName('body')[0]).appendChild(ds);
-	})();
-	</script>
-<!-- Duoshuo Comment END -->
 </div>
 <?php $this->need('footer.php')?>
