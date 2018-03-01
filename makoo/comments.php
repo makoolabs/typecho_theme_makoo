@@ -12,103 +12,88 @@
     <div class="pull-right"><a href="#respond"><i class="fa fa-pencil"></i> 添加新评论</a></div>
 </div>
 <ul>
-    <ol class="commentlist">
-        <?php function threadedComments($comments,$options){
-                    $commentClass = '';
-                    if($comments->authorId){
-                        if($comments->authorId == $comments->ownerId){
-                            $commentClass .= ' comment-by-author';
-                        }else{
-                            $commentClass .= ' comment-by-user';
-                        }
-                    }
-                    $commentLevelClass = $comments->levels>0?' comment-child':' comment-parent';
-        ?>
-        <li class="comment <?php if($comments->levels>0){echo 'byuser';echo ' comment-author-'.$comments->author;echo ' bypostauthor';echo $comments->levelsAlt(' even',' odd');}else{$comments->alt('even','odd');$comments->alt(' thread-even',' thread-odd');}?> depth-<?php echo $comments->levels+1;?>" id="li-<?php $comments->theId();?>">
+        <?php function threadedComments($comments,$options){?>
+        <li id="comment-li-<?php $comments->theId();?>" class="comment_li" >
             <div id="<?php $comments->theId();?>">
-                <div class="comment-author vcard">
-                    <?php $comments->gravatar('80','');?>
-                    <cite class="fn">
-                        <?php $comments->author();?>
-                    </cite>
-                    <span class="says">说:</span>
+                <div class="comment_top clearfix">
+                    <div class="comment_avatar">
+                        <?php $comments->gravatar('40','');?>
+                    </div>
+                    <div class="pull-left">
+                        <p class="comment_author"><a href="" rel="nofollow" target="_blank"><?php $comments->author();?></a></p>
+                        <p class="comment_time"><?php $comments->date('Y-m-d H:i');?></p>
+                    </div>
+                    <div class="pull-right">
+                        <?php $comments->reply();?>
+                    </div>
                 </div>
-                <div class="comment-meta commentmetadata">
-                    <a href="<?php $comments->permalink();?>"><?php $comments->date('Y-m-d H:i');?></a>
-                </div>
-                <div class="comment-body">
-                    <?php $comments->content();?>
-                </div>
-                <div class="reply">
-                    <?php $comments->reply();?>
+                <div class="comment-text">
+                    <p><?php $comments->content();?></p>
                 </div>
             </div>
             <?php if($comments->children){?>
-            <ul class="children">
-                <?php $comments->threadedComments($options); ?>
-            </ul>
+                <ol class="children">
+                    <?php $comments->threadedComments($options); ?>
+                </ol>
             <?php }?>
         </li>
         <?php }?>
         <?php $comments->listComments(array('before'=>'' , 'after'=>'')); ?>
         <?php $comments->pageNav('&laquo; 前一页', '后一页 &raquo;'); ?>
-    </ol>
 </ul>
 <?php endif; ?>
 <?php if($this->allow("comment")):?>
     <div id="<?php $this->respondId();?>" class="comment-respond">
-        <h3 id="reply-title" class="comment-reply-title">留下一个回复
+        <h4 id="reply-title" class="comment-reply-title">发表评论
             <small>
                 <?php $comments->cancelReply();?>
             </small>
-        </h3>
+        </h4>
         <form action="<?php $this->commentUrl() ?>" method="post" id="commentform" class="comment-form" role="form">
             <?php if($this->user->hasLogin()):?>
             <p class="comment-notes"><?php _e('登录身份: ');?><a href="<?php $this->options->profileUrl(); ?>"><?php $this->user->screenName(); ?></a>. 
             <a href="<?php $this->options->logoutUrl(); ?>" title="Logout"><?php _e('退出');?> &raquo;</a></p>
             <?php endif;?>
-            <p class="comment-notes">你的email不会被公开。</p>
-            <p class="comment-form-comment">
-                <label for="textarea">评论</label>
-                <textarea rows="8" cols="50" name="text" id="textarea"  required ><?php $this->remeber('text');?></textarea>
-            </p>
+            <p class="comment-notes"><span id="email-notes">你的email不会被公开。</span>必填项已用<span class="required">*</span>标注</p>
+            <div class="comment form-group has-feedback">
+                <textarea class="form-control" id="textarea" placeholder=" " name="text" rows="5" aria-required="true" required onkeydown="if(event.ctrlKey){if(event.keyCode==13){document.getElementById('submit').click();return false}};"><?php $this->remeber('text');?></textarea>
+            </div>
             <?php if(!$this->user->hasLogin()):?>
-            <p class="comment-form-author">
-                <label for="author">姓名 <span class="required">*</span></label>
-                <input id="author" name="author" type="text"  value="<?php $this->remember('author');?>" size="30" maxlength="245" required />
-            </p>
-            <p class="comment-form-email">
-                <label for="mail" >电子邮件 <?php if($this->options->commentsRequireMail):?><span class="required">*</span><?php endif;?></label>
-                <input id="mail" name="mail" type="email" value="<?php $this->remember('mail');?>" size="30" maxlength="100" <?php if($this->options->commentsRequireMail):?> required<?php endif;?>/>
-            </p>
-            <p class="comment-form-url">
-                <label for="url">站点</label>
-                <input id="url" name="url" type="url" placeholder="<?php _e('http://')?>" value="<?php $this->remember('url');?>" size="30" maxlength="200" />
-            </p>
+            <div class="comment-form-author form-group has-feedback">
+                <div class="input-group">
+                    <div class="input-group-addon">
+                        <i class="fa fa-user"></i>
+                    </div>
+                    <input class="form-control" placeholder="昵称" id="author" name="author" type="text"  value="<?php $this->remember('author');?>" size="30" maxlength="245"/>
+                    <span class="form-control-feedback required">*</span>
+                </div>
+            </div>
+            <div class="comment-form-email form-group has-feedback">
+                <div class="input-group">
+                    <div class="input-group-addon">
+                        <i class="fa fa-envelope-o"></i>
+                    </div>
+                    <input class="form-control" placeholder="邮箱" id="mail" name="mail" type="email" value="<?php $this->remember('mail');?>" size="30" maxlength="100"/>
+                    <span class="form-control-feedback<?php if($this->options->commentsRequireMail):?> required<?php endif;?>">*</span>
+                </div>
+            </div>
+            <div class="comment-form-url form-group has-feedback">
+                <div class="input-group">
+                    <div class="input-group-addon">
+                        <i class="fa fa-link"></i>
+                    </div>
+                    <input class="form-control" placeholder="网站(<?php _e('http://')?>)" id="url" name="url" type="url"  value="<?php $this->remember('url');?>" size="30" maxlength="200" />
+                </div>
+            </div>
             <?php endif;?>
             <p class="form-submit">
-                <input name="submit" type="submit" id="submit" class="submit" value="发表评论" />
+                <input name="submit" type="submit" id="submit" class="btn btn-primary" value="发表评论" />
             </p>
         </form>
     </div>
     <?php else:?>
     <h4><?php _e("评论已关闭");?></h4>
     <?php endif;?>
-<?php
-    /*$fields =  array(
-        'author' => '<div class="comment-form-author form-group has-feedback"><div class="input-group"><div class="input-group-addon"><i class="fa fa-user"></i></div><input class="form-control" placeholder="昵称" id="author" name="author" type="text" value="" ' . esc_attr( $commenter['comment_author'] ) . '" size="30"' . $aria_req . ' /><span class="form-control-feedback required">*</span></div></div>',
-        'email'  => '<div class="comment-form-email form-group has-feedback"><div class="input-group"><div class="input-group-addon"><i class="fa fa-envelope-o"></i></div><input class="form-control" placeholder="邮箱" id="email" name="email" type="text" value="" ' . esc_attr(  $commenter['comment_author_email'] ) . '" size="30"' . $aria_req . ' /><span class="form-control-feedback required">*</span></div></div>',
-        'url'  => '<div class="comment-form-url form-group has-feedback"><div class="input-group"><div class="input-group-addon"><i class="fa fa-link"></i></div><input class="form-control" placeholder="网站" id="url" name="url" type="text" value="" ' . esc_attr(  $commenter['comment_author_url'] ) . '" size="30"' . $aria_req . ' /></div></div>',
-    );
-    $args = array(
-        'title_reply_before' => '<h4 id="reply-title" class="comment-reply-title">',
-        'title_reply_after'  => '</h4>',
-        'fields' =>  $fields,
-        'class_submit' => 'btn btn-primary',
-        'comment_field' =>  '<div class="comment form-group has-feedback"><textarea class="form-control" id="comment" placeholder=" " name="comment" rows="5" aria-required="true" required  onkeydown="if(event.ctrlKey){if(event.keyCode==13){document.getElementById(\'submit\').click();return false}};"></textarea></div>',
-    );
-    comment_form($args);*/
-?>
 <script>
     (function(){
         window.TypechoComment = {
