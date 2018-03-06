@@ -2,7 +2,7 @@
 <aside class="widget clearfix">
     <form id="searchform" action="/">
         <div class="input-group">
-            <input type="search" class="form-control" placeholder="搜索…" value="请输入关键词开始搜索吧" name="s">
+            <input type="search" class="form-control" placeholder="搜索…" value="请输入关键词开始搜索吧" name="s" id="s" onclick="this.value = '';" onkeypress="javascript:if(event.keyCode == 13){query(this.value);}">
             <span class="input-group-btn"><button class="btn btn-default" type="submit"><i class="fa fa-search" aria-hidden="true"></i></button></span>
         </div>
     </form>

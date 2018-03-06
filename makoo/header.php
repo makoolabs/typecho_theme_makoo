@@ -54,14 +54,14 @@
     </title>
     <link rel="stylesheet" href="<?php echo asseturl?>css/bootstrap.min.css">
     <link rel="stylesheet" href="<?php echo asseturl?>css/font-awesome.min.css">
-    <script type="text/javascript" src="<?php echo asseturl?>js/popper.min.js"></script>
-    <script type="text/javascript" src="<?php echo asseturl?>js/jquery.min.js"></script>
-    <script type="text/javascript" src="<?php echo asseturl?>js/bootstrap.min.js"></script>
+    <!--<script type="text/javascript" src="<?php echo asseturl?>js/popper.min.js"></script>-->
+    <!--<script type="text/javascript" src="<?php echo asseturl?>js/jquery.min.js"></script>-->
+    <!--<script type="text/javascript" src="<?php echo asseturl?>js/bootstrap.min.js"></script>-->
     <link rel="stylesheet" href="<?php echo asseturl?>app.min.css?v=<?php echo VERSION?>">
     <style type="text/css">
     a{color:#5bc0eb ?>}
     a:hover{color:#2980b9!important}
-    #header{background-color:#5bc0eb}
+    #header{background-color:#000000}
     .widget .widget-title::after{background-color:#5bc0eb}
     .uptop{border-left-color:#5bc0eb}
     #titleBar .toggle:before{background:#5bc0eb}
