@@ -98,8 +98,8 @@
     </div>
     <div class="nav">
     <ul>
-            <li><a href="">首页</a></li>
-            <li><a href="">博主介绍</a></li>
+            <li><a href="<?php $this->options->siteUrl();?>">首页</a></li>
+            <li><a href="/resume.html">博主介绍</a></li>
             <li><a href="#">koo叔出品</a>
                 <ul>
                     <li style="border:none;"><a href="http://makoolabs.com">makoo主题</a></li>

@@ -17,6 +17,7 @@
     </div>
     <?php $this->options->tongji()?>
 </footer>
+<script type="text/javascript" src="<?php echo asseturl ?>/js/jquery.min.js"></script>
 <script type="text/javascript" src="<?php echo asseturl ?>app.min.js"></script>
 <!--<script type="text/javascript" src="<?php echo asseturl ?>js/skel.min.js"></script>-->
 <!--<script type="text/javascript" src="<?php echo asseturl ?>/js/util.min.js"></script>-->
