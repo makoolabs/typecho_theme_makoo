@@ -8,15 +8,23 @@
     </form>
 </aside>
 <aside class="widget clearfix">
-    <h4 class="widget-title">站点统计</h4>
-    <?php Typecho_Widget::widget('Widget_Stat')->to($stat);?>
-    <ul class="widget-title">
-        <li>文章总数:<?php $stat ->publishedPostsNum()?>篇</li>
-        <li>分类总数:<?php $stat->categoriesNum()?>个</li>
-        <Li>标签总数:<?php tagsNum()?>个</li>
-        <li>评论总数:<?php $stat->publishedCommentsNum()?>条</li>
-        <li>页面总数:<?php $stat->publishedPagesNum()?>个</li>
-        <li>网站已运行：<?php $this->options->buildDate=empty($this->options->buildDate)?date("Y-m-d"):$this->options->buildDate;echo floor((time()-strtotime($this->options->buildDate))/86400);?>天</li>
+    <h4 class="widget-title">文章分类</h4>
+    <ul class="widget-cat">
+        <?php $this->widget('Widget_Metas_Category_list')->to($categorys);?>
+        <?php while($categorys->next()):?>
+            <?php if($categorys->levels ===0):?>
+                <?php $children = $categorys->getAllChildren($categorys->mid);?>
+                <li class="cat-item cat-item-<?php $categorys->mid()?>"><a href="<?php $categorys->permalink()?>" title="查看<?php $categorys->name()?>下的所有文章"><?php $categorys->name()?></a>(<?php $categorys->count()?>)</li>
+                <?php if(!empty($children)){?>
+                    <ul class="widget-cat" style="margin-left:20px;">
+                        <?php foreach($children as $mid){?>
+                            <?php $child = $categorys->getCategory($mid)?>
+                            <li class="cat-item cat-item-<?php echo $child['mid']?>"><a href="<?php echo $child['permalink']?>" title="查看<?php echo $child['name']?>下的所有文章"><?php echo $child['name']?></a></li>
+                        <?php }?>
+                    </ul>
+                <?php }?>
+            <?php endif?>
+        <?php endwhile;?>
     </ul>
 </aside>
 <aside class="widget clearfix">
@@ -26,9 +34,15 @@
     </ul>
 </aside>
 <aside class="widget clearfix">
-    <h4 class="widget-title">文章分类</h4>
-    <ul class="widget-cat">
-        <?php $this->widget('Widget_Metas_Category_List')->parse('<li class="cat-item cat-item-{mid}"><a href="{permalink}" title="查看{name}下的所有文章">{name}</a>({count})</li>');?>
+    <h4 class="widget-title">站点统计</h4>
+    <?php Typecho_Widget::widget('Widget_Stat')->to($stat);?>
+    <ul class="widget-title">
+        <li>文章总数:<?php $stat ->publishedPostsNum()?>篇</li>
+        <li>分类总数:<?php $stat->categoriesNum()?>个</li>
+        <Li>标签总数:<?php tagsNum()?>个</li>
+        <li>评论总数:<?php $stat->publishedCommentsNum()?>条</li>
+        <li>页面总数:<?php $stat->publishedPagesNum()?>个</li>
+        <li>网站已运行：<?php $this->options->buildDate=empty($this->options->buildDate)?date("Y-m-d"):$this->options->buildDate;echo floor((time()-strtotime($this->options->buildDate))/86400);?>天</li>
     </ul>
 </aside>
 <aside class="widget clearfix">
